@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>ভাইরাল ভিডিও</title>
+
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+
+  <style>
+    /* আপনার বিদ্যমান CSS */
+    
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0,0,0,0.9);
+      z-index: 100;
+    }
+
+    .modal.active {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    video {
+      width: 100%;
+      max-height: 90vh;
+      border-radius: 10px;
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <div class="logo">🔥 ভাইরাল <span>ভিডিও</span></div>
+  <input class="search" id="search" type="text" placeholder="ভিডিও খুঁজুন...">
+</header>
+
+<!-- ভিডিও প্লেয়ার মোডাল -->
+<div class="modal" id="videoModal">
+  <video id="videoPlayer" controls autoplay></video>
+</div>
+
+<!-- বাকি HTML -->
+
+<script>
+  // Telegram Mini App
+  const tg = window.Telegram.WebApp;
+  tg.ready();
+  tg.expand();
+
+  // ভিডিও ডেটা
+  const videos = [
+    {
+      name: "আজকের ভাইরাল ভিডিও",
+      url: "https://example.com/video1.mp4",
+      views: "12.5K",
+      thumbnail: "▶️"
+    },
+    {
+      name: "নতুন মজার ভিডিও",
+      url: "https://example.com/video2.mp4",
+      views: "8.2K",
+      thumbnail: "😂"
+    }
+  ];
+
+  // ভিডিও প্লে করুন
+  document.querySelectorAll(".card").forEach((card, index) => {
+    card.addEventListener("click", function () {
+      const video = videos[index];
+      const modal = document.getElementById("videoModal");
+      const player = document.getElementById("videoPlayer");
+      
+      player.src = video.url;
+      modal.classList.add("active");
+    });
+  });
+
+  // মোডাল বন্ধ করুন
+  document.getElementById("videoModal").addEventListener("click", function (e) {
+    if (e.target === this) {
+      this.classList.remove("active");
+      document.getElementById("videoPlayer").pause();
+    }
+  });
+
+  // সার্চ ফিচার
+  const search = document.getElementById("search");
+  const cards = document.querySelectorAll(".card");
+
+  search.addEventListener("input", function () {
+    const value = this.value.toLowerCase();
+    cards.forEach(card => {
+      const name = card.dataset.name.toLowerCase();
+      card.style.display = name.includes(value) ? "block" : "none";
+    });
+  });
+</script>
+
+</body>
+</html>
