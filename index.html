@@ -1,145 +1,230 @@
 <!DOCTYPE html>
 <html lang="bn">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>🔥 ভাইরাল ভিডিও</title>
+  <title>🔥 ভাইরাল ভিডিও</title>
 
-<script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
-<style>
-*{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
-}
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-body{
-  background:#0b0b0f;
-  color:white;
-  font-family:Arial,sans-serif;
-  padding-bottom:75px;
-}
+    body {
+      background: #0b0b0f;
+      color: white;
+      font-family: Arial, sans-serif;
+      padding-bottom: 30px;
+    }
 
-header{
-  position:sticky;
-  top:0;
-  z-index:10;
-  background:#0b0b0f;
-  padding:15px;
-}
+    .header {
+      padding: 20px 15px;
+      text-align: center;
+      background: #111118;
+    }
 
-.logo{
-  font-size:24px;
-  font-weight:bold;
-  margin-bottom:12px;
-}
+    .header h1 {
+      font-size: 24px;
+      margin-bottom: 15px;
+    }
 
-.logo span{
-  color:#ff1744;
-}
+    .search {
+      width: 100%;
+      padding: 13px;
+      border: none;
+      border-radius: 10px;
+      background: #22222b;
+      color: white;
+      font-size: 16px;
+      outline: none;
+    }
 
-.search{
-  width:100%;
-  padding:13px 15px;
-  border:1px solid #292932;
-  border-radius:12px;
-  background:#17171e;
-  color:white;
-  outline:none;
-  font-size:15px;
-}
+    .categories {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding: 15px;
+    }
 
-.search::placeholder{
-  color:#888;
-}
+    .category {
+      background: #20202a;
+      color: white;
+      border: none;
+      padding: 9px 15px;
+      border-radius: 20px;
+      white-space: nowrap;
+      cursor: pointer;
+    }
 
-.categories{
-  display:flex;
-  gap:8px;
-  overflow-x:auto;
-  padding:5px 15px 15px;
-}
+    .category:hover {
+      background: #33333f;
+    }
 
-.category{
-  border:0;
-  white-space:nowrap;
-  background:#191920;
-  color:white;
-  padding:9px 15px;
-  border-radius:20px;
-  font-size:13px;
-}
+    .container {
+      padding: 0 15px;
+    }
 
-.category.active{
-  background:#ff1744;
-}
+    .card {
+      background: #16161d;
+      border-radius: 14px;
+      margin-bottom: 18px;
+      overflow: hidden;
+    }
 
-.title{
-  padding:5px 15px 12px;
-  font-size:20px;
-}
+    .card video {
+      width: 100%;
+      display: block;
+      background: black;
+    }
 
-.videos{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:12px;
-  padding:0 12px 25px;
-}
+    .card h2 {
+      font-size: 17px;
+      padding: 13px 14px 5px;
+    }
 
-.card{
-  background:#15151b;
-  border-radius:14px;
-  overflow:hidden;
-  cursor:pointer;
-  border:1px solid #22222a;
-}
+    .card p {
+      color: #aaa;
+      font-size: 13px;
+      padding: 0 14px 14px;
+    }
 
-.thumb{
-  width:100%;
-  aspect-ratio:16/10;
-  background:linear-gradient(135deg,#292936,#101015);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  position:relative;
-}
+    .no-result {
+      text-align: center;
+      color: #999;
+      padding: 30px;
+      display: none;
+    }
+  </style>
+</head>
 
-.thumb video{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  display:block;
-}
+<body>
 
-.play{
-  position:absolute;
-  width:48px;
-  height:48px;
-  border-radius:50%;
-  background:#ff1744;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:21px;
-}
+  <div class="header">
+    <h1>🔥 ভাইরাল ভিডিও</h1>
 
-.info{
-  padding:10px;
-}
+    <input
+      type="text"
+      id="search"
+      class="search"
+      placeholder="🔍 ভিডিও খুঁজুন..."
+    >
+  </div>
 
-.name{
-  font-size:14px;
-  font-weight:bold;
-  line-height:1.4;
-}
+  <div class="categories">
+    <button class="category" onclick="filterVideos('all')">সব ভিডিও</button>
+    <button class="category" onclick="filterVideos('viral')">🔥 ভাইরাল</button>
+    <button class="category" onclick="filterVideos('funny')">😂 মজার</button>
+    <button class="category" onclick="filterVideos('music')">🎵 মিউজিক</button>
+  </div>
 
-.views{
-  color:#999;
-  font-size:12px;
-  margin-top:5px;
-}
+  <div class="container">
 
-.empty{
-  grid-column:1/-1;
+    <div class="card" data-category="viral" data-title="আজকের ভাইরাল ভিডিও">
+      <video controls preload="metadata">
+        <source
+          src="https://www.w3schools.com/html/mov_bbb.mp4"
+          type="video/mp4"
+        >
+        আপনার ব্রাউজার ভিডিও চালাতে পারে না।
+      </video>
+
+      <h2>🔥 আজকের ভাইরাল ভিডিও</h2>
+      <p>আজকের জনপ্রিয় ভিডিও</p>
+    </div>
+
+    <div class="card" data-category="funny" data-title="মজার ভিডিও">
+      <video controls preload="metadata">
+        <source
+          src="https://www.w3schools.com/html/movie.mp4"
+          type="video/mp4"
+        >
+        আপনার ব্রাউজার ভিডিও চালাতে পারে না।
+      </video>
+
+      <h2>😂 নতুন মজার ভিডিও</h2>
+      <p>মজার ও বিনোদনমূলক ভিডিও</p>
+    </div>
+
+    <div class="card" data-category="music" data-title="মিউজিক ভিডিও">
+      <video controls preload="metadata">
+        <source
+          src="https://www.w3schools.com/html/mov_bbb.mp4"
+          type="video/mp4"
+        >
+        আপনার ব্রাউজার ভিডিও চালাতে পারে না।
+      </video>
+
+      <h2>🎵 ভাইরাল মিউজিক ভিডিও</h2>
+      <p>ট্রেন্ডিং মিউজিক</p>
+    </div>
+
+    <div class="card" data-category="viral" data-title="ট্রেন্ডিং ভিডিও">
+      <video controls preload="metadata">
+        <source
+          src="https://www.w3schools.com/html/movie.mp4"
+          type="video/mp4"
+        >
+        আপনার ব্রাউজার ভিডিও চালাতে পারে না।
+      </video>
+
+      <h2>🔥 আজকের ট্রেন্ডিং</h2>
+      <p>সবার পছন্দের ট্রেন্ডিং ভিডিও</p>
+    </div>
+
+    <div id="noResult" class="no-result">
+      কোনো ভিডিও পাওয়া যায়নি।
+    </div>
+
+  </div>
+
+  <script>
+    const searchBox = document.getElementById("search");
+    const cards = document.querySelectorAll(".card");
+    const noResult = document.getElementById("noResult");
+
+    searchBox.addEventListener("input", function () {
+      const text = this.value.toLowerCase();
+      let found = false;
+
+      cards.forEach(function (card) {
+        const title = card.dataset.title.toLowerCase();
+
+        if (title.includes(text)) {
+          card.style.display = "block";
+          found = true;
+        } else {
+          card.style.display = "none";
+        }
+      });
+
+      noResult.style.display = found ? "none" : "block";
+    });
+
+    function filterVideos(category) {
+      let found = false;
+
+      cards.forEach(function (card) {
+        if (category === "all" || card.dataset.category === category) {
+          card.style.display = "block";
+          found = true;
+        } else {
+          card.style.display = "none";
+        }
+      });
+
+      noResult.style.display = found ? "none" : "block";
+    }
+
+    if (window.Telegram && Telegram.WebApp) {
+      Telegram.WebApp.ready();
+      Telegram.WebApp.expand();
+    }
+  </script>
+
+</body>
+</html>
